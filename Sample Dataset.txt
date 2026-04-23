@@ -1,0 +1,34 @@
+Sample Dataset
+
+Patient Master Data (Premade)
+
+
+[
+  {"userId": "P101", "fullName": "Alice Sharma", "role": "PATIENT"},
+  {"userId": "P102", "fullName": "Bob Reddy", "role": "PATIENT"}
+]
+
+Doctor Master Data (Premade)
+
+[
+  {"userId": "D501", "fullName": "Dr. Smith", "specialty": "Cardiology"},
+  {"userId": "D502", "fullName": "Dr. Varma", "specialty": "General Medicine"}
+]
+Medical Record Sample (Post-Encryption)
+
+{
+  "recordId": "MR-202603181200",
+  "patientId": "P101",
+  "encryptedNotes": "V0ZSQVpWNVRYRlpX...[HEX_STRING]",
+  "allergies": ["Peanuts", "Dust"],
+  "timestamp": "2026-03-18T12:00:00"
+}
+Insurance Ledger Sample
+
+{
+  "P101": {
+    "total_coverage": 10000,
+    "utilized_amount": 1500,
+    "balance_remaining": 8500
+  }
+}

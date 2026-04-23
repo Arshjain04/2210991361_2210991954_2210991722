@@ -1,0 +1,32 @@
+User Manual
+
+
+Operational Flow for Stakeholders
+
+Module 1: Patient Entry (Option 1)
+Purpose: To securely upload medical observations.
+
+Action: Enter a verified Patient ID (e.g., P101).
+
+Security Feature: Clinical notes are encrypted using AES-256 equivalent logic immediately upon entry. You will see a success message once the data is "At-Rest."
+
+Module 2: Doctor Retrieval (Option 2)
+Purpose: Authorized clinical review.
+
+Action: Enter a verified Doctor ID (e.g., D501).
+
+Action: Enter the target Patient ID.
+
+Verification: The system checks the Doctor Registry. If authorized, it pulls the encrypted string and decrypts it into readable text for the doctor.
+
+Module 3: Insurance Processing (Option 3)
+Purpose: Claim settlement and balance management.
+
+Action: Select a patient's record.
+
+Result: Input the claim amount. The system automatically deducts this from the default $10,000 coverage and updates the ledger.
+
+Module 4: Balance Inquiry (Option 4)
+Purpose: Financial transparency.
+
+Action: Enter Patient ID to view the Total, Utilized, and Remaining insurance balance.

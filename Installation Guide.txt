@@ -1,0 +1,22 @@
+Installation Guide
+
+
+Project: Secure Digital Health Record System (Backend Logic Model)
+
+Prerequisites
+Python: Version 3.8 or higher must be installed on the system.
+
+Operating System: Windows 10/11, macOS, or Linux.
+
+IDE/Editor: VS Code, PyCharm, or any standard Text Editor.
+
+Setup Instructions
+Extract the Folder: Unzip the file SecureDigitalHealthRecordSystem.zip.
+
+Verify Environment: Open your terminal/command prompt and type:
+python --version
+
+Library Check: This prototype uses native Python libraries (base64, datetime, hashlib). No external pip installations are required for this logical version.
+
+Run the System: Navigate to the folder in your terminal and execute:
+python main.py
