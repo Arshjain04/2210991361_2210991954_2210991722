@@ -1,0 +1,153 @@
+import base64
+from datetime import datetime
+
+
+# 1. SECURITY & CRYPTOGRAPHY MODULE
+
+def mock_encrypt(text, key="SECURE_KEY"):
+    enc = []
+    for i in range(len(text)):
+        key_c = key[i % len(key)]
+        enc_c = chr((ord(text[i]) + ord(key_c)) % 256)
+        enc.append(enc_c)
+    return base64.urlsafe_b64encode("".join(enc).encode()).decode()
+
+def mock_decrypt(enc_text, key="SECURE_KEY"):
+    dec = []
+    enc_text = base64.urlsafe_b64decode(enc_text).decode()
+    for i in range(len(enc_text)):
+        key_c = key[i % len(key)]
+        dec_c = chr((256 + ord(enc_text[i]) - ord(key_c)) % 256)
+        dec.append(dec_c)
+    return "".join(dec)
+
+# 2. PRE-MADE DATABASES (USER REGISTRY)
+
+DB_PATIENTS = {
+    "P101": {"name": "Alice Sharma", "age": 29},
+    "P102": {"name": "Bob Reddy", "age": 45},
+    "P103": {"name": "Charlie Khan", "age": 34}
+}
+
+
+DB_DOCTORS = {
+    "D501": {"name": "Dr. Smith", "specialty": "Cardiology"},
+    "D502": {"name": "Dr. Varma", "specialty": "General Medicine"}
+}
+
+
+db_medical_records = []
+db_insurance_ledgers = {pid: {"total": 10000, "utilized": 0, "balance": 10000} for pid in DB_PATIENTS}
+
+# 3. VERIFICATION LOGIC
+def verify_user(user_id, user_type):
+    if user_type == "PATIENT":
+        return user_id in DB_PATIENTS
+    elif user_type == "DOCTOR":
+        return user_id in DB_DOCTORS
+    return False
+
+# 4. CORE MODULE LOGIC
+
+def patient_module():
+    print("\n--- PATIENT LOGIN ---")
+    p_id = input("Enter Patient ID: ")
+    
+    if not verify_user(p_id, "PATIENT"):
+        print("✖ Access Denied: Patient ID not found in database.")
+        return
+
+    print(f"Welcome, {DB_PATIENTS[p_id]['name']}")
+    notes = input("Enter Clinical Notes (Sensitive): ")
+    allergies = input("Enter Allergies (comma separated): ").split(",")
+    
+    secure_notes = mock_encrypt(notes)
+    
+    record = {
+        "recordId": f"MR-{datetime.now().strftime('%Y%m%d%H%M')}",
+        "patientId": p_id,
+        "encryptedNotes": secure_notes,
+        "allergies": allergies,
+        "timestamp": datetime.now().isoformat()
+    }
+    db_medical_records.append(record)
+    print(f"✔ Record Secured for Patient {p_id}")
+
+def doctor_module():
+    print("\n--- DOCTOR LOGIN ---")
+    d_id = input("Enter Doctor ID: ")
+    
+    if not verify_user(d_id, "DOCTOR"):
+        print("✖ Access Denied: Unauthorized Doctor ID.")
+        return
+
+    print(f"Authorized: {DB_DOCTORS[d_id]['name']} ({DB_DOCTORS[d_id]['specialty']})")
+    p_id = input("Enter Patient ID to view history: ")
+    
+    if not verify_user(p_id, "PATIENT"):
+        print("✖ Error: Patient ID not found.")
+        return
+
+    results = [r for r in db_medical_records if r['patientId'] == p_id]
+    if not results:
+        print("No medical history found for this patient.")
+        return
+
+    for rec in results:
+        decrypted_notes = mock_decrypt(rec['encryptedNotes'])
+        print(f"\n[Record ID: {rec['recordId']}] | Date: {rec['timestamp']}")
+        print(f"Allergies: {', '.join(rec['allergies'])}")
+        print(f"Decrypted Notes: {decrypted_notes}")
+
+def insurer_module():
+    print("\n--- INSURANCE PROCESSING ---")
+    p_id = input("Enter Patient ID to process claim: ")
+    
+    if p_id not in db_insurance_ledgers:
+        print("✖ Error: No insurance profile for this ID.")
+        return
+
+    ledger = db_insurance_ledgers[p_id]
+    print(f"Patient: {DB_PATIENTS[p_id]['name']} | Balance: ${ledger['balance']}")
+    
+    try:
+        claim_amount = float(input("Enter claim amount to utilize: "))
+        if 0 < claim_amount <= ledger['balance']:
+            ledger['utilized'] += claim_amount
+            ledger['balance'] -= claim_amount
+            print(f"✔ Claim Approved. Remaining Balance: ${ledger['balance']}")
+        else:
+            print("✖ Invalid Amount or Insufficient Funds.")
+    except ValueError:
+        print("✖ Error: Please enter a numeric value.")
+
+def balance_check():
+    print("\n--- INSURANCE BALANCE INQUIRY ---")
+    p_id = input("Enter Patient ID: ")
+    if p_id in db_insurance_ledgers:
+        ledger = db_insurance_ledgers[p_id]
+        print(f"\nSummary for {DB_PATIENTS[p_id]['name']}:")
+        print(f"Balance: ${ledger['balance']} / Utilized: ${ledger['utilized']}")
+    else:
+        print("✖ Patient not found.")
+
+# MAIN INTERFACE
+def main():
+    while True:
+        print("\n--- SECURE DIGITAL HEALTH RECORD SYSTEM ---")
+        print("1. Patient Entry")
+        print("2. Doctor Retrieval")
+        print("3. Process Insurance Claim")
+        print("4. Check Balance")
+        print("5. Exit")
+        choice = input("Select Option: ")
+
+        if choice == '1': patient_module()
+        elif choice == '2': doctor_module()
+        elif choice == '3': insurer_module()
+        elif choice == '4': balance_check()
+        elif choice == '5': break
+        else: print("Invalid Choice.")
+
+if __name__ == "__main__":
+    main()
