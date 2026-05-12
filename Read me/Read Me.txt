@@ -1,0 +1,90 @@
+Read Me
+
+Project Title: SECURE DIGITAL HEALTH RECORD SYSTEM: Unified Healthcare Integration Model
+
+Team Members:
+Naman Bathla - 2210991954
+Arsh Jain - 2210991361
+Jiya Singla - 2210991722
+
+
+Software/Platform Used: Python Runtime Environment, VS Code / PyCharm
+
+Programming Language Used: Python 3.x
+
+Steps to Run the Code:
+
+Install Python from python.org.
+
+Download and extract the source code ZIP folder.
+
+Open a terminal or command prompt in the project folder.
+
+Run the command: python main.py.
+
+Follow the on-screen menu to toggle between Patient, Doctor, and Insurer roles.
+
+Required Libraries/Tools: base64, datetime (Built-in Python libraries).
+
+Username/Password:
+
+Patient IDs: P101, P102, P103
+
+Doctor IDs: D501, D502
+
+Input and Expected Output:
+
+Input: Clinical notes (e.g., "Patient has mild fever").
+
+Expected Output: System displays "Record Secured." Upon Doctor login, the notes are decrypted back to readable text. The insurance balance is updated from $10,000 based on claim inputs.
+
+3. Requirements / Dependencies
+To ensure the project runs correctly, the following environment is required:
+
+Programming Language: Python 3.10 or higher.
+
+Integrated Development Environment (IDE): VS Code, PyCharm, or IDLE.
+
+Operating System: Windows 10/11, macOS, or Linux.
+
+Libraries: * base64: Used for encoding encrypted clinical strings.
+
+datetime: Used for generating unique recordId timestamps.
+
+Database Framework: Logical NoSQL structure (Dictionary-based implementation).
+
+4. Database / Dataset
+Since this is a security-focused logic model, the "Database" is implemented as an In-Memory Data Structure to demonstrate the schema without requiring a heavy SQL installation.
+
+Database Structure:
+
+DB_PATIENTS: Master registry of authorized patients.
+
+DB_DOCTORS: Master registry of authorized medical practitioners.
+
+db_medical_records: The "Secure Vault" containing encrypted medical data.
+
+db_insurance_ledgers: Financial records for balance tracking.
+
+Initial Dataset:
+
+Patients: Alice Sharma (P101), Bob Reddy (P102), Charlie Khan (P103).
+
+Doctors: Dr. Smith (D501), Dr. Varma (D502).
+
+Default Insurance Coverage: $10,000.00 per patient.
+
+File Location: All data logic is contained within the main.py file under the PRE-MADE DATABASES section.
+
+5. Run File / Execution Support
+The project is designed for "One-Click Execution."
+
+Main Run File: main.py
+
+Execution Method:
+
+Windows: Double-click main.py (if Python is associated) or run python main.py in Cmd.
+
+macOS/Linux: Run python3 main.py in Terminal.
+
+Interactive Menu: The console provides a numbered list (1–5) to navigate between different stakeholders and the insurance balance check.
